@@ -41,6 +41,9 @@ ARCHITECTURE struct OF MIPS_tb IS
    SIGNAL write_data_tb_o  		: STD_LOGIC_VECTOR(DATA_BUS_WIDTH-1 DOWNTO 0 );
    SIGNAL mclk_cnt_tb_o			: STD_LOGIC_VECTOR(CLK_CNT_WIDTH-1 DOWNTO 0);
    SIGNAL inst_cnt_tb_o 		: STD_LOGIC_VECTOR(INST_CNT_WIDTH-1 DOWNTO 0);
+   --signal gpio
+   SIGNAL sw_w,leds_w           : STD_LOGIC_VECTOR(8-1 DOWNTO 0);
+   SIGNAL hex0_w,hex1_w,hex2_w,hex3_w,hex4_w,hex5_w           : STD_LOGIC_VECTOR(7 DOWNTO 0);
    
 BEGIN
 	MIPS_MCU : MIPS_SoC
@@ -58,8 +61,17 @@ BEGIN
 	)
 	PORT MAP (
 		rst_i           	=> rst_tb_i,
-		clk_i           	=> clk_tb_i
-	);	
+		clk_i           	=> clk_tb_i,
+		sw_i 			    =>sw_w,
+	    leds_o              =>leds_w,
+        hex0_o=>hex0_w,
+		hex1_o=>hex1_w,
+		hex2_o=>hex2_w,
+		hex3_o=>hex3_w,
+		hex4_o=>hex4_w,
+		hex5_o =>hex5_w              
+	);
+sw_w <= "00000001";	
 --------------------------------------------------------------------	
 	gen_clk : 
 	process

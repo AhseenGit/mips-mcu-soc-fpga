@@ -68,11 +68,11 @@ optimzed_addr <= addr(11)&addr(4 downto 2);
 
     -- decoder
      with optimzed_addr select
-        CS  <=  "1000000" when "1000",
+        CS  <=  "0000001" when "1000",
                 "0100000" when "1001",
 			    "0010000" when "1010",
 				"0001000" when "1011",				
-                "0000100" when "1100",
+                "1000000" when "1100",
                 "0000000"  when others;
 
 	-- LEDs
@@ -83,7 +83,7 @@ optimzed_addr <= addr(11)&addr(4 downto 2);
 	    Q0<=write_data;
 	end if;
     end process;
-    leds<=Q0;	
+    leds<=Q0;
 	
 	-- Hex0
 	en_hex0<= (CS(5) and (not addr(0)) and mem_write);
@@ -106,14 +106,14 @@ optimzed_addr <= addr(11)&addr(4 downto 2);
     hex1<=Q2;
 	
 	-- Hex2
-	en_hex1<= (CS(5) and (not addr(0)) and mem_write);
-    process(en_hex1)
+	en_hex2<= (CS(4) and (not addr(0)) and mem_write);
+    process(en_hex2)
     begin 
-	if en_hex1='1' then 
+	if en_hex2='1' then 
 	    Q3<=write_data;
 	end if;
     end process;
-    hex1<=Q3;
+    hex2<=Q3;
 	
 	-- Hex3
 	en_hex3<= (CS(4) and ( addr(0)) and mem_write);
@@ -126,7 +126,7 @@ optimzed_addr <= addr(11)&addr(4 downto 2);
     hex3<=Q4;
 	
 	-- Hex4
-	en_hex4<= (CS(4) and (not addr(0)) and mem_write);
+	en_hex4<= (CS(3) and (not addr(0)) and mem_write);
     process(en_hex4)
     begin 
 	if en_hex4='1' then 
@@ -136,7 +136,7 @@ optimzed_addr <= addr(11)&addr(4 downto 2);
     hex4<=Q5;
 	
 	-- Hex5
-	en_hex5<= (CS(4) and ( addr(0)) and mem_write);
+	en_hex5<= (CS(3) and ( addr(0)) and mem_write);
     process(en_hex5)
     begin 
 	if en_hex5='1' then 

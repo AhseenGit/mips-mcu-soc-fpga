@@ -1,7 +1,3 @@
----------------------------------------------------------------------------------------------
--- Copyright 2025 Hananya Ribo 
--- Advanced CPU architecture and Hardware Accelerators Lab 361-1-4693 BGU
----------------------------------------------------------------------------------------------
 library IEEE;
 use ieee.std_logic_1164.all;
 USE work.cond_comilation_package.all;
@@ -22,12 +18,72 @@ component MIPS_SoC IS
 			CLK_CNT_WIDTH : integer 	:= 16;
 			INST_CNT_WIDTH : integer 	:= 16
 	);
-	PORT(	rst_i		 		:IN	STD_LOGIC;
-			clk_i				:IN	STD_LOGIC 
-
-	);		
+		PORT(	rst_i		 		:IN	STD_LOGIC;
+			clk_i				:IN	STD_LOGIC;
+            sw_i 			    :IN	STD_LOGIC_VECTOR(7 downto 0);
+			leds_o              : OUT STD_LOGIC_VECTOR(7 downto 0);
+            hex0_o,hex1_o,hex2_o,hex3_o,hex4_o,hex5_o              : OUT STD_LOGIC_VECTOR(7 downto 0)
+	);			
 END component;
+--------------------------------------------------------
+component BCTIMER is
+    generic (reg_size : integer := 32);
+    port (
+        BTCCR0_i,BTCCR1_i : in std_logic_vector(reg_size-1 downto 0);
+        BTCLR_i,BTHOLD_i : in std_logic;
+		BTSSEL_i: in std_logic_vector(1 downto 0);
+        MCLK_i,MCLK_2_i,MCLK_4_i,MCLK_8_i: in std_logic;
+		BTOUTMD_i,BTOUTEN_i: in std_logic;
+		BTIP_i:in std_logic_vector(1 downto 0);
+		BTIFG_o : out std_logic;
+        PWM_o : out std_logic
+    );
+end component;
 
+
+
+--------------------------------------------------------
+component Timer is
+    generic (n: integer := 8);
+    port (
+        clk, enable, reset, clear : in std_logic;
+        q : out std_logic_vector(n-1 downto 0)
+    );
+end component;
+
+--------------------------------------------------------
+component PWM is
+    generic (n : integer := 16);
+    port (
+        clk_i, enable_i: in std_logic;
+        PWM_Mode_i : in std_logic;
+        x_i,q_i, y_i : in std_logic_vector(n-1 downto 0);
+        PWM_O,HEU_o : out std_logic
+    );
+end component;
+
+--------------------------------------------------------
+component gpio IS
+  PORT (
+    clk        : IN  std_logic;
+    rst        : IN  std_logic;
+    addr       : IN  std_logic_vector(11 downto 0);
+    mem_read         : IN  std_logic;
+    mem_write         : IN  std_logic;
+    write_data : IN  std_logic_vector(7 downto 0);
+    read_data  : OUT std_logic_vector(7 downto 0);
+
+    switches   : IN  std_logic_vector(7 downto 0);
+    --keys    : IN  std_logic_vector(3 downto 0);
+    leds       : OUT std_logic_vector(7 downto 0);
+    hex0        : OUT std_logic_vector(7 downto 0); 
+	hex1        : OUT std_logic_vector(7 downto 0); 
+	hex2        : OUT std_logic_vector(7 downto 0); 
+	hex3        : OUT std_logic_vector(7 downto 0); 
+	hex4        : OUT std_logic_vector(7 downto 0); 
+	hex5        : OUT std_logic_vector(7 downto 0)
+  );
+END component;
 --------------------------------------------------------	
 component MIPS IS
 	generic( 

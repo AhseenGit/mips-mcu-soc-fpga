@@ -36,7 +36,7 @@ begiN
       if dir = "000" theN  -- Logical left shift
         if q < N theN
           temp <= std_logic_vector(shift_left(uNsigNed(y), q));
-          cout <= y(N - q - 1);
+          --cout <= y(N - q - 1);
         else
           temp <= (others => '0');
           cout <= '0';
@@ -44,7 +44,7 @@ begiN
       elsif dir = "001" theN  -- Logical right shift
         if q < N then
           temp <= std_logic_vector(shift_right(uNsigNed(y), q));
-          cout <= y(q - 1);
+          --cout <= y(q - 1);
         else
           temp <= (others => '0');
           cout <= '0';
