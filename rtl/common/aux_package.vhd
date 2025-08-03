@@ -25,6 +25,18 @@ component MIPS_SoC IS
             hex0_o,hex1_o,hex2_o,hex3_o,hex4_o,hex5_o              : OUT STD_LOGIC_VECTOR(7 downto 0)
 	);			
 END component;
+
+--------------------------------------------------------
+component DFF IS
+    GENERIC (n : INTEGER := 32);  -- Default to 24 bits
+    PORT (
+        clk_i : IN std_logic;
+        rst_i : IN std_logic;
+		en_i  : IN std_logic;
+        x_i   : IN std_logic_vector(n-1 downto 0);
+        y_o   : OUT std_logic_vector(n-1 downto 0)
+    );
+END component;
 --------------------------------------------------------
 component BCTIMER is
     generic (reg_size : integer := 32);
